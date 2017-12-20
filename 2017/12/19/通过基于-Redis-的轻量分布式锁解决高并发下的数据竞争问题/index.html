@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Redis,分布式锁,数据竞争," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="通过基于 Redis 的轻量分布式锁解决高并发下的数据竞争问题背景介绍为了避免数据竞争（Data Race）问题，一般采用加锁的方式对资源的访问进行限制。在单机（单进程）环境中，可以通过编程语言提供的并发控制 API 来实现。然而如今几乎所有大型网站为了解决大流量，高并发的问题，都会选择分布式以及集群部署。在这种情况下，就需要引入分布式锁来实现并发控制。 本文将以笔者在百姓网的 DSP 平台凤鸣为">
+<meta name="keywords" content="Redis,分布式锁,数据竞争">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过基于 Redis 的轻量分布式锁解决高并发下的数据竞争问题">
+<meta property="og:url" content="http://blog.wujm.site/2017/12/19/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/index.html">
+<meta property="og:site_name" content="WJM&#39;s Blog">
+<meta property="og:description" content="通过基于 Redis 的轻量分布式锁解决高并发下的数据竞争问题背景介绍为了避免数据竞争（Data Race）问题，一般采用加锁的方式对资源的访问进行限制。在单机（单进程）环境中，可以通过编程语言提供的并发控制 API 来实现。然而如今几乎所有大型网站为了解决大流量，高并发的问题，都会选择分布式以及集群部署。在这种情况下，就需要引入分布式锁来实现并发控制。 本文将以笔者在百姓网的 DSP 平台凤鸣为">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://blog.wujm.site/images/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/fig1.png">
+<meta property="og:image" content="http://blog.wujm.site/images/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/fig2.png">
+<meta property="og:updated_time" content="2017-12-19T11:53:56.299Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="通过基于 Redis 的轻量分布式锁解决高并发下的数据竞争问题">
+<meta name="twitter:description" content="通过基于 Redis 的轻量分布式锁解决高并发下的数据竞争问题背景介绍为了避免数据竞争（Data Race）问题，一般采用加锁的方式对资源的访问进行限制。在单机（单进程）环境中，可以通过编程语言提供的并发控制 API 来实现。然而如今几乎所有大型网站为了解决大流量，高并发的问题，都会选择分布式以及集群部署。在这种情况下，就需要引入分布式锁来实现并发控制。 本文将以笔者在百姓网的 DSP 平台凤鸣为">
+<meta name="twitter:image" content="http://blog.wujm.site/images/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/fig1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.wujm.site/2017/12/19/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/"/>
+
+
+
+
+
+  <title>通过基于 Redis 的轻量分布式锁解决高并发下的数据竞争问题 | WJM's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WJM's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.wujm.site/2017/12/19/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="James Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WJM's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">通过基于 Redis 的轻量分布式锁解决高并发下的数据竞争问题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-19T17:08:04+08:00">
+                2017-12-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/19/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/12/19/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题"><a href="#通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题" class="headerlink" title="通过基于 Redis 的轻量分布式锁解决高并发下的数据竞争问题"></a>通过基于 Redis 的轻量分布式锁解决高并发下的数据竞争问题</h1><h2 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h2><p>为了避免数据竞争（Data Race）问题，一般采用加锁的方式对资源的访问进行限制。在单机（单进程）环境中，可以通过编程语言提供的并发控制 API 来实现。然而如今几乎所有大型网站为了解决大流量，高并发的问题，都会选择分布式以及集群部署。在这种情况下，就需要引入分布式锁来实现并发控制。</p>
+<p>本文将以笔者在百姓网的 DSP 平台凤鸣为例，介绍一种通过分布式锁解决高并发下的数据竞争问题的思路。</p>
+<h2 id="一个简单的例子"><a href="#一个简单的例子" class="headerlink" title="一个简单的例子"></a>一个简单的例子</h2><p>数据竞争是指存在两个及以上程序实例，它们：</p>
+<ul>
+<li>试图并发访问同一位置的数据</li>
+<li>涉及对数据的修改</li>
+<li>未使用独占锁等访问控制手段</li>
+</ul>
+<p>为了便于理解，下面用一个例子来展示这种数据竞争带来的问题。</p>
+<p>设想一个代购服务，用户可以该网站上输入需要购买的商品，后台将订单信息存入数据库，并标记为待购买。同时，后台定时获取所有待购买的商品，向经销商发出购买请求，成功后将商品标记为已购买。</p>
+<p>假设现在数据库表如下 (foreign_order_id 记录了订单在外部系统中的编号，便于后续的追踪)：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>product</th>
+<th>spec</th>
+<th>status</th>
+<th>foreign_order_id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>iPhone X</td>
+<td>土豪金</td>
+<td>PENDING_CREATE</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bitcoin</td>
+<td>0.001</td>
+<td>PENDING_CREATE</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>3</td>
+<td>HEYTEA</td>
+<td>芝士茗茶</td>
+<td>FINISHED</td>
+<td>123456</td>
+</tr>
+</tbody>
+</table>
+<p>定时任务每分钟扫描这张表。在 t0 发现有 <code>id</code> 为 1 和 2 的状态为 <code>PENDING_CREATE</code>，通过 MQ 发送给 2 个 worker 去执行购买任务 <code>purchase</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">purchase</span><span class="params">(order_id)</span>:</span></span><br><span class="line">    order = db.execute(<span class="string">'SELECT * FROM tb_order WHERE order_id = &#123;&#125;'</span>.format(order_id))</span><br><span class="line">    <span class="keyword">if</span> order.status == PENDING_CREATE:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            foid = foreign_service.purchase(order.product, order.spec)</span><br><span class="line">        <span class="keyword">except</span> ForeignServiceException:</span><br><span class="line">            <span class="comment"># retry or giveup somehow</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            db.execute(<span class="string">'UPDATE tb_order SET status = FINISHED and foreign_order_id = &#123;&#125; WHERE id = &#123;&#125;'</span>.format(foid, order_id))</span><br></pre></td></tr></table></figure>
+<p>然而由于队列任务堆积或外部服务不稳定，可能在 t0 + 1min 的时候仍有未完成的任务（状态为 <code>PENDING_CREATE</code>）。此时，定时任务会再次发送相同的购买任务。在这种情况下，如果不加检查可能会出现一个 order 被重复购买的情况。</p>
+<p>解决这种问题大概有两种方法：</p>
+<ol>
+<li>保证相同的任务 <strong>被且仅被</strong> 发送一次 </li>
+<li>保证任务的 <strong>幂等性</strong>（即被多次执行不会产生副作用）</li>
+</ol>
+<p>第一种解决方案需要保证分布式系统中的强一致性，往往是不切实际的。所以我们把目标放在第二种解决方案上。一个最直观的想法是使用关系型数据库原生的锁。</p>
+<h3 id="方案一：使用-RDBMS-的锁"><a href="#方案一：使用-RDBMS-的锁" class="headerlink" title="方案一：使用 RDBMS 的锁"></a>方案一：使用 RDBMS 的锁</h3><p>现在修改 <code>purchase</code> 如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">purchase</span><span class="params">(order_id)</span>:</span></span><br><span class="line">    db.execute(<span class="string">'BEGIN'</span>)</span><br><span class="line">    order = db.execute(<span class="string">'SELECT * FROM tb_order WHERE order_id = &#123;&#125; FOR UPDATE'</span>.format(order_id))</span><br><span class="line">    <span class="keyword">if</span> order.status == PENDING_CREATE:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            foid = foreign_service.purchase(order.product, order.spec)</span><br><span class="line">        <span class="keyword">except</span> ForeignServiceException:</span><br><span class="line">            db.execute(<span class="string">'ABORT'</span>)</span><br><span class="line">            <span class="comment"># retry or giveup somehow</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            db.execute(<span class="string">'UPDATE tb_order SET status = FINISHED and foreign_order_id = &#123;&#125; WHERE id = &#123;&#125;'</span>.format(foid, order_id))</span><br><span class="line">        db.execute(<span class="string">'COMMIT'</span>)</span><br></pre></td></tr></table></figure>
+<p>注意这里引入了事务，并且在一开始获取 order 的时候使用了 <code>FOR UPDATE</code> 为这一行加上了一个独占锁。因此，其他并发的事务对这条记录的更新操作就会被阻塞。这种并发控制也被称为 <strong>悲观并发控制</strong>，因为它悲观地假设在过程中会出现数据竞争。</p>
+<blockquote>
+<p>悲观并发控制（Pessimistic Concurrency Control）是一种并发控制的方法。它可以阻止一个事务以影响其他用户的方式来修改数据。如果一个事务执行的操作对某行数据应用了锁，那只有当这个事务把锁释放，其他事务才能够执行与该锁冲突的操作。</p>
+</blockquote>
+<p>在效率方面，悲观并发控制的加锁机制会让数据库产生额外的开销，也增加了产生死锁的可能性；同时，一个事务如果锁定了某行数据，其他事务就必须等待该事务处理完才可以处理那行数据，所以降低了并行性。</p>
+<p>在我们的假想 case 中，我们不能保证外部服务的稳定性，如果 <code>foreign_service.purchase</code> 这个函数调用会阻塞很久，那么数据库的并发能力便会受到它的影响。</p>
+<p>试想这样一种情况：客户希望在购买之后更新他 / 她的订单，而恰好此时该条订单正在被处理。在这种情况下，由于该订单被加上了独占锁，用户的更新操作会被阻塞，造成用户等待，体验比较差：</p>
+<p><img src="/images/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/fig1.png" alt="fig1"></p>
+<p>可能有读者会问，为什么要把耗时的操作放在事务内部，而不在获取外部服务的 response 后再加锁呢？这是由于之前提到并不能保证相同的任务被且仅被发送一次，那么如果有两个 worker 并发执行这个任务就可能出现重复购买的情况。</p>
+<p>在实际应用场景中，这种情况并不常见，而我们又必须保证数据的一致性。因此，我们可以采取另一种并发控制的思路：<strong>乐观并发控制</strong>。它乐观地假定不存在数据竞争的情况，因此尽可能直接做下去，直到提交的时候才去锁定。</p>
+<blockquote>
+<p>乐观并发控制（Optimistic Concurrency Control）是一种并发控制的方法。它假设多用户并发的事务在处理时不会彼此互相影响，各事务能够在不产生锁的情况下处理各自影响的那部分数据。在提交数据更新之前，每个事务会先检查在该事务读取数据后，有没有其他事务又修改了该数据。如果其他事务有更新的话，正在提交的事务会进行回滚。</p>
+</blockquote>
+<p>在效率方面，由于直到提交的时候才会去锁定，所以不会产生死锁。但是如果写操作频率较高，频繁的回滚也会造成无谓的性能浪费。</p>
+<p>在我们的 case 中，由于  <code>purchase</code>  涉及外部服务，为了能够回滚需要手动实现对应的 undo 方法。</p>
+<p>设想这样一种情况，如果在 worker 接到任务时 id 为 1 的订单为 (1, 1, iPhone X, 土豪金, PENDING_CREATE, NULL)，但是等到它提交时，发现该订单已经被更新为 (1, 1, iPhone X, 土豪金, FINISHED,’66666’)，它就需要执行与  <code>purchase</code>  相对应的 undo 方法 <code>cancel_purchase</code>  。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cancel_purchase</span><span class="params">(foreign_order_id)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        foreign_service.cancel_purchase(foreign_order_id)</span><br><span class="line">    <span class="keyword">except</span> ForeignServiceException:</span><br><span class="line">        <span class="comment"># retry somehow</span></span><br></pre></td></tr></table></figure>
+<p>但是在某些极端情况下，外部服务可能在此时挂掉，导致 <code>cancel_purchase</code> 无法执行成功。为了保证数据的最终一致性，需要将这些需要 undo 的信息持久化下来。这无疑增加了系统的复杂性。</p>
+<h3 id="方案二：基于-Redis-的分布式锁"><a href="#方案二：基于-Redis-的分布式锁" class="headerlink" title="方案二：基于 Redis 的分布式锁"></a>方案二：基于 Redis 的分布式锁</h3><p>经过上面的尝试，我们发现我们需要的锁最好能够：</p>
+<ul>
+<li>保证不会有两个并发的 worker 同时处理一条订单（即临界区可以覆盖整个 <code>purchase</code> 过程）</li>
+<li>不会让用户在更新某条订单时被阻塞（不阻塞其它并发修改）</li>
+</ul>
+<p>因此，实际上我们需要的是<strong>结合悲观锁与乐观锁</strong>的一种并发控制方式：悲观锁负责防止并发的 worker 访问，乐观锁能够保证用户的更新不阻塞。显然，数据库的锁不能满足这一要求。因此，我们需要的是一个不依赖于数据库的<strong>分布式锁</strong>。</p>
+<p>实现分布式锁的方法有很多种，其中比较常见的有：</p>
+<ul>
+<li>基于数据库（通过插入或删除记录实现加锁）</li>
+<li>基于分布式协调系统</li>
+</ul>
+<p>其中 Zookeeper 是分布式协调系统的一个代表。基于分布式协调系统的锁虽然功能更加健全，但是对于这个 case 来说算是大材小用，而且相比基于数据库的并不会带来什么性能优势，所以我们选择了第一种方案。而相比传统的关系型数据库，Redis 不仅并发性能更好，而且自带了具有原子性的 <code>test_and_set</code> 方法 <code>setnx</code> 和过期 (expire) 功能，所以更适合用来实现分布式锁。</p>
+<p>一个简单的锁可以如此实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lock</span><span class="params">(key)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> test_and_set(key) == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>实际上，redis-py 中已经包含了通过 Lua 脚本实现的与锁相关的 API: Lualock。具体代码<a href="http://redis-py.readthedocs.io/en/latest/_modules/redis/client.html?highlight=LuaLock" target="_blank" rel="noopener">^1</a>大家可以自行查看，这里简要介绍一下思路：</p>
+<ul>
+<li>获取锁：需要传入锁名和一个客户端随机生成的 <code>token</code> ，通过 <code>setnx</code> 插入一条 key 为锁名，value 为 <code>token</code> 的记录</li>
+<li>释放锁：需要传入锁名和申请锁时生成的 <code>token</code> ，通过 Lua 脚本原子性地：<ol>
+<li>检查客户端传入的 key 与 <code>token</code> 是否相符</li>
+<li>相符则删除这条锁的记录，返回成功，否则返回失败</li>
+</ol>
+</li>
+</ul>
+<p>由于 Redis 使用单个 Lua 解释器运行所有脚本，它的原子性也是得到保证的：当某个脚本正在运行的时候，不会有其他脚本或 Redis 命令被执行。换句话说，在其他客户端看来，脚本的效果要么是不可见的，要么是已完成的。</p>
+<p>可能有细心的读者可能会问 <code>token</code> 的作用是什么。其实它是为了防止一个程序实例释放不属于它自己的锁。如果一个程序实例 A 在获取锁之后被阻塞，在这期间它的锁过期了，而第二个程序实例 B 获取了这把锁。当 A 从阻塞中回复后会尝试释放锁。如果不加判断进行释放就会造成 A 释放 B 新获取的锁，破坏了锁的排他性。所以，获取锁的程序实例需要生成一个唯一的 <code>token</code> 在获取时作为参数传入，并在释放时使用 <code>token</code> 供校验用。</p>
+<p>接下来的问题就是确定锁的名称（key）。一个简单的方法是拼接表名，id 和字段名，例如：<code>tb_order:1:status</code>，即锁住 <code>tb_order</code> 表中 <code>id</code> 为 1 的记录的 <code>status</code> 字段。</p>
+<p>具体实现大致如下（通过 <code>contextmanager</code> 可以实现在进入 <code>with</code> 语句块时获取锁，在退出时释放锁）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@contextmanager</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">redis_lock</span><span class="params">(key,timeout = <span class="number">15</span>)</span>:</span></span><br><span class="line">    _lock = LuaLock(REDIS, key, timeout)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        _lock.acquire(blocking=<span class="keyword">True</span>)</span><br><span class="line">        <span class="keyword">yield</span> _lock</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        _lock.release()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">purchase</span><span class="params">(order_id)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> redis_lock(<span class="string">'tb_order:&#123;&#125;:status'</span>.format(order_id)):</span><br><span class="line">        order = db.execute(<span class="string">'SELECT * FROM tb_order WHERE order_id = &#123;&#125;'</span>.format(order_id))</span><br><span class="line">    	<span class="keyword">if</span> order.status == PENDING_CREATE:</span><br><span class="line">            foreign_service.purchase(order.product, order.spec)</span><br><span class="line">            <span class="keyword">except</span> ForeignServiceException:</span><br><span class="line">            	<span class="comment"># retry or giveup somehow</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                db.execute(<span class="string">'UPDATE tb_order SET status = FINISHED WHERE id = &#123;&#125;'</span>.format(order_id))</span><br></pre></td></tr></table></figure>
+<p>这样就保证了只有一个程序实例可以拿到某条订单记录的独占锁，完成操作后释放，其他并行的程序实例会在其完成前阻塞，等到它们获取锁，检查发现订单状态改变，便直接返回。</p>
+<p>但是这也并不能保证万无一失。细心的读者可能会问：如果在 <code>purchase</code> 的过程中用户修改了订单内容怎么办？在这里，我们可以使用乐观并发控制。在更新订单状态前检查在过程中订单信息是否被修改，如果被修改，则将订单状态置为待更新，发送异步任务调用外部服务更新订单，并释放锁。更新订单的逻辑与创建订单类似，同样的在提交前也要检查期间订单是否被更改，这里就不赘述了。</p>
+<p>具体流程见下图：</p>
+<p><img src="/images/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/fig2.png" alt="fig1"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实百姓网的 DSP 平台就类似一个代购服务，方便用户在搜索引擎推广平台上投放广告，降低了 SEM 推广的门槛，为用户带来了便利。如果把商品换成广告的推广计划，外部服务换成各 SEM 平台，上述的模型就是凤鸣后台的一个简化模型。</p>
+<p>本文介绍了两种并发控制的方式：悲观并发控制和乐观并发控制，并介绍了如何使用 Redis 实现比 RDBMS 原生锁粒度更小的锁来提高并发性能。实际上，不同的并发控制策略并没有优劣之分：在写并不频繁的情况下，使用悲观并发控制将带来并发性能的下降；类似的，在写非常频繁的情况下，使用乐观并发控制也会造成大量的回滚影响性能。因此，应视具体的使用场景灵活地选择并发控制的策略。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Redis/" rel="tag"># Redis</a>
+          
+            <a href="/tags/分布式锁/" rel="tag"># 分布式锁</a>
+          
+            <a href="/tags/数据竞争/" rel="tag"># 数据竞争</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/18/Node-js：使用JavaScript搭建高性能网络程序/" rel="next" title="Node.js：使用JavaScript搭建高性能网络程序">
+                <i class="fa fa-chevron-left"></i> Node.js：使用JavaScript搭建高性能网络程序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">James Wu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/wujm2007" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/u/3829383816" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-globe"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题"><span class="nav-number">1.</span> <span class="nav-text"><a href="#&#x901A;&#x8FC7;&#x57FA;&#x4E8E;-Redis-&#x7684;&#x8F7B;&#x91CF;&#x5206;&#x5E03;&#x5F0F;&#x9501;&#x89E3;&#x51B3;&#x9AD8;&#x5E76;&#x53D1;&#x4E0B;&#x7684;&#x6570;&#x636E;&#x7ADE;&#x4E89;&#x95EE;&#x9898;" class="headerlink" title="&#x901A;&#x8FC7;&#x57FA;&#x4E8E; Redis &#x7684;&#x8F7B;&#x91CF;&#x5206;&#x5E03;&#x5F0F;&#x9501;&#x89E3;&#x51B3;&#x9AD8;&#x5E76;&#x53D1;&#x4E0B;&#x7684;&#x6570;&#x636E;&#x7ADE;&#x4E89;&#x95EE;&#x9898;"></a>&#x901A;&#x8FC7;&#x57FA;&#x4E8E; Redis &#x7684;&#x8F7B;&#x91CF;&#x5206;&#x5E03;&#x5F0F;&#x9501;&#x89E3;&#x51B3;&#x9AD8;&#x5E76;&#x53D1;&#x4E0B;&#x7684;&#x6570;&#x636E;&#x7ADE;&#x4E89;&#x95EE;&#x9898;</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景介绍"><span class="nav-number">1.1.</span> <span class="nav-text"><a href="#&#x80CC;&#x666F;&#x4ECB;&#x7ECD;" class="headerlink" title="&#x80CC;&#x666F;&#x4ECB;&#x7ECD;"></a>&#x80CC;&#x666F;&#x4ECB;&#x7ECD;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个简单的例子"><span class="nav-number">1.2.</span> <span class="nav-text"><a href="#&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x4F8B;&#x5B50;" class="headerlink" title="&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x4F8B;&#x5B50;"></a>&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x4F8B;&#x5B50;</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方案一：使用-RDBMS-的锁"><span class="nav-number">1.2.1.</span> <span class="nav-text"><a href="#&#x65B9;&#x6848;&#x4E00;&#xFF1A;&#x4F7F;&#x7528;-RDBMS-&#x7684;&#x9501;" class="headerlink" title="&#x65B9;&#x6848;&#x4E00;&#xFF1A;&#x4F7F;&#x7528; RDBMS &#x7684;&#x9501;"></a>&#x65B9;&#x6848;&#x4E00;&#xFF1A;&#x4F7F;&#x7528; RDBMS &#x7684;&#x9501;</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方案二：基于-Redis-的分布式锁"><span class="nav-number">1.2.2.</span> <span class="nav-text"><a href="#&#x65B9;&#x6848;&#x4E8C;&#xFF1A;&#x57FA;&#x4E8E;-Redis-&#x7684;&#x5206;&#x5E03;&#x5F0F;&#x9501;" class="headerlink" title="&#x65B9;&#x6848;&#x4E8C;&#xFF1A;&#x57FA;&#x4E8E; Redis &#x7684;&#x5206;&#x5E03;&#x5F0F;&#x9501;"></a>&#x65B9;&#x6848;&#x4E8C;&#xFF1A;&#x57FA;&#x4E8E; Redis &#x7684;&#x5206;&#x5E03;&#x5F0F;&#x9501;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.3.</span> <span class="nav-text"><a href="#&#x603B;&#x7ED3;" class="headerlink" title="&#x603B;&#x7ED3;"></a>&#x603B;&#x7ED3;</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">James Wu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://wjms-blog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://blog.wujm.site/2017/12/19/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/';
+          this.page.identifier = '2017/12/19/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/';
+          this.page.title = '通过基于 Redis 的轻量分布式锁解决高并发下的数据竞争问题';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://wjms-blog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

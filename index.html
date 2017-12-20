@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="WJM&#39;s Blog">
+<meta property="og:url" content="http://blog.wujm.site/index.html">
+<meta property="og:site_name" content="WJM&#39;s Blog">
+<meta property="og:locale" content="zh-Hans">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WJM&#39;s Blog">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.wujm.site/"/>
+
+
+
+
+
+  <title>WJM's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left 
+  page-home">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">WJM's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.wujm.site/2017/12/19/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="James Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WJM's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/19/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/" itemprop="url">通过基于 Redis 的轻量分布式锁解决高并发下的数据竞争问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-19T17:08:04+08:00">
+                2017-12-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/12/19/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/12/19/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题"><a href="#通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题" class="headerlink" title="通过基于 Redis 的轻量分布式锁解决高并发下的数据竞争问题"></a>通过基于 Redis 的轻量分布式锁解决高并发下的数据竞争问题</h1><h2 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h2><p>为了避免数据竞争（Data Race）问题，一般采用加锁的方式对资源的访问进行限制。在单机（单进程）环境中，可以通过编程语言提供的并发控制 API 来实现。然而如今几乎所有大型网站为了解决大流量，高并发的问题，都会选择分布式以及集群部署。在这种情况下，就需要引入分布式锁来实现并发控制。</p>
+<p>本文将以笔者在百姓网的 DSP 平台凤鸣为例，介绍一种通过分布式锁解决高并发下的数据竞争问题的思路。</p>
+<h2 id="一个简单的例子"><a href="#一个简单的例子" class="headerlink" title="一个简单的例子"></a>一个简单的例子</h2><p>数据竞争是指存在两个及以上程序实例，它们：</p>
+<ul>
+<li>试图并发访问同一位置的数据</li>
+<li>涉及对数据的修改</li>
+<li>未使用独占锁等访问控制手段</li>
+</ul>
+<p>为了便于理解，下面用一个例子来展示这种数据竞争带来的问题。</p>
+<p>设想一个代购服务，用户可以该网站上输入需要购买的商品，后台将订单信息存入数据库，并标记为待购买。同时，后台定时获取所有待购买的商品，向经销商发出购买请求，成功后将商品标记为已购买。</p>
+<p>假设现在数据库表如下 (foreign_order_id 记录了订单在外部系统中的编号，便于后续的追踪)：</p>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>product</th>
+<th>spec</th>
+<th>status</th>
+<th>foreign_order_id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>iPhone X</td>
+<td>土豪金</td>
+<td>PENDING_CREATE</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Bitcoin</td>
+<td>0.001</td>
+<td>PENDING_CREATE</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>3</td>
+<td>HEYTEA</td>
+<td>芝士茗茶</td>
+<td>FINISHED</td>
+<td>123456</td>
+</tr>
+</tbody>
+</table>
+<p>定时任务每分钟扫描这张表。在 t0 发现有 <code>id</code> 为 1 和 2 的状态为 <code>PENDING_CREATE</code>，通过 MQ 发送给 2 个 worker 去执行购买任务 <code>purchase</code>：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">purchase</span><span class="params">(order_id)</span>:</span></span><br><span class="line">    order = db.execute(<span class="string">'SELECT * FROM tb_order WHERE order_id = &#123;&#125;'</span>.format(order_id))</span><br><span class="line">    <span class="keyword">if</span> order.status == PENDING_CREATE:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            foid = foreign_service.purchase(order.product, order.spec)</span><br><span class="line">        <span class="keyword">except</span> ForeignServiceException:</span><br><span class="line">            <span class="comment"># retry or giveup somehow</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            db.execute(<span class="string">'UPDATE tb_order SET status = FINISHED and foreign_order_id = &#123;&#125; WHERE id = &#123;&#125;'</span>.format(foid, order_id))</span><br></pre></td></tr></table></figure>
+<p>然而由于队列任务堆积或外部服务不稳定，可能在 t0 + 1min 的时候仍有未完成的任务（状态为 <code>PENDING_CREATE</code>）。此时，定时任务会再次发送相同的购买任务。在这种情况下，如果不加检查可能会出现一个 order 被重复购买的情况。</p>
+<p>解决这种问题大概有两种方法：</p>
+<ol>
+<li>保证相同的任务 <strong>被且仅被</strong> 发送一次 </li>
+<li>保证任务的 <strong>幂等性</strong>（即被多次执行不会产生副作用）</li>
+</ol>
+<p>第一种解决方案需要保证分布式系统中的强一致性，往往是不切实际的。所以我们把目标放在第二种解决方案上。一个最直观的想法是使用关系型数据库原生的锁。</p>
+<h3 id="方案一：使用-RDBMS-的锁"><a href="#方案一：使用-RDBMS-的锁" class="headerlink" title="方案一：使用 RDBMS 的锁"></a>方案一：使用 RDBMS 的锁</h3><p>现在修改 <code>purchase</code> 如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">purchase</span><span class="params">(order_id)</span>:</span></span><br><span class="line">    db.execute(<span class="string">'BEGIN'</span>)</span><br><span class="line">    order = db.execute(<span class="string">'SELECT * FROM tb_order WHERE order_id = &#123;&#125; FOR UPDATE'</span>.format(order_id))</span><br><span class="line">    <span class="keyword">if</span> order.status == PENDING_CREATE:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            foid = foreign_service.purchase(order.product, order.spec)</span><br><span class="line">        <span class="keyword">except</span> ForeignServiceException:</span><br><span class="line">            db.execute(<span class="string">'ABORT'</span>)</span><br><span class="line">            <span class="comment"># retry or giveup somehow</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            db.execute(<span class="string">'UPDATE tb_order SET status = FINISHED and foreign_order_id = &#123;&#125; WHERE id = &#123;&#125;'</span>.format(foid, order_id))</span><br><span class="line">        db.execute(<span class="string">'COMMIT'</span>)</span><br></pre></td></tr></table></figure>
+<p>注意这里引入了事务，并且在一开始获取 order 的时候使用了 <code>FOR UPDATE</code> 为这一行加上了一个独占锁。因此，其他并发的事务对这条记录的更新操作就会被阻塞。这种并发控制也被称为 <strong>悲观并发控制</strong>，因为它悲观地假设在过程中会出现数据竞争。</p>
+<blockquote>
+<p>悲观并发控制（Pessimistic Concurrency Control）是一种并发控制的方法。它可以阻止一个事务以影响其他用户的方式来修改数据。如果一个事务执行的操作对某行数据应用了锁，那只有当这个事务把锁释放，其他事务才能够执行与该锁冲突的操作。</p>
+</blockquote>
+<p>在效率方面，悲观并发控制的加锁机制会让数据库产生额外的开销，也增加了产生死锁的可能性；同时，一个事务如果锁定了某行数据，其他事务就必须等待该事务处理完才可以处理那行数据，所以降低了并行性。</p>
+<p>在我们的假想 case 中，我们不能保证外部服务的稳定性，如果 <code>foreign_service.purchase</code> 这个函数调用会阻塞很久，那么数据库的并发能力便会受到它的影响。</p>
+<p>试想这样一种情况：客户希望在购买之后更新他 / 她的订单，而恰好此时该条订单正在被处理。在这种情况下，由于该订单被加上了独占锁，用户的更新操作会被阻塞，造成用户等待，体验比较差：</p>
+<p><img src="/images/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/fig1.png" alt="fig1"></p>
+<p>可能有读者会问，为什么要把耗时的操作放在事务内部，而不在获取外部服务的 response 后再加锁呢？这是由于之前提到并不能保证相同的任务被且仅被发送一次，那么如果有两个 worker 并发执行这个任务就可能出现重复购买的情况。</p>
+<p>在实际应用场景中，这种情况并不常见，而我们又必须保证数据的一致性。因此，我们可以采取另一种并发控制的思路：<strong>乐观并发控制</strong>。它乐观地假定不存在数据竞争的情况，因此尽可能直接做下去，直到提交的时候才去锁定。</p>
+<blockquote>
+<p>乐观并发控制（Optimistic Concurrency Control）是一种并发控制的方法。它假设多用户并发的事务在处理时不会彼此互相影响，各事务能够在不产生锁的情况下处理各自影响的那部分数据。在提交数据更新之前，每个事务会先检查在该事务读取数据后，有没有其他事务又修改了该数据。如果其他事务有更新的话，正在提交的事务会进行回滚。</p>
+</blockquote>
+<p>在效率方面，由于直到提交的时候才会去锁定，所以不会产生死锁。但是如果写操作频率较高，频繁的回滚也会造成无谓的性能浪费。</p>
+<p>在我们的 case 中，由于  <code>purchase</code>  涉及外部服务，为了能够回滚需要手动实现对应的 undo 方法。</p>
+<p>设想这样一种情况，如果在 worker 接到任务时 id 为 1 的订单为 (1, 1, iPhone X, 土豪金, PENDING_CREATE, NULL)，但是等到它提交时，发现该订单已经被更新为 (1, 1, iPhone X, 土豪金, FINISHED,’66666’)，它就需要执行与  <code>purchase</code>  相对应的 undo 方法 <code>cancel_purchase</code>  。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cancel_purchase</span><span class="params">(foreign_order_id)</span>:</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        foreign_service.cancel_purchase(foreign_order_id)</span><br><span class="line">    <span class="keyword">except</span> ForeignServiceException:</span><br><span class="line">        <span class="comment"># retry somehow</span></span><br></pre></td></tr></table></figure>
+<p>但是在某些极端情况下，外部服务可能在此时挂掉，导致 <code>cancel_purchase</code> 无法执行成功。为了保证数据的最终一致性，需要将这些需要 undo 的信息持久化下来。这无疑增加了系统的复杂性。</p>
+<h3 id="方案二：基于-Redis-的分布式锁"><a href="#方案二：基于-Redis-的分布式锁" class="headerlink" title="方案二：基于 Redis 的分布式锁"></a>方案二：基于 Redis 的分布式锁</h3><p>经过上面的尝试，我们发现我们需要的锁最好能够：</p>
+<ul>
+<li>保证不会有两个并发的 worker 同时处理一条订单（即临界区可以覆盖整个 <code>purchase</code> 过程）</li>
+<li>不会让用户在更新某条订单时被阻塞（不阻塞其它并发修改）</li>
+</ul>
+<p>因此，实际上我们需要的是<strong>结合悲观锁与乐观锁</strong>的一种并发控制方式：悲观锁负责防止并发的 worker 访问，乐观锁能够保证用户的更新不阻塞。显然，数据库的锁不能满足这一要求。因此，我们需要的是一个不依赖于数据库的<strong>分布式锁</strong>。</p>
+<p>实现分布式锁的方法有很多种，其中比较常见的有：</p>
+<ul>
+<li>基于数据库（通过插入或删除记录实现加锁）</li>
+<li>基于分布式协调系统</li>
+</ul>
+<p>其中 Zookeeper 是分布式协调系统的一个代表。基于分布式协调系统的锁虽然功能更加健全，但是对于这个 case 来说算是大材小用，而且相比基于数据库的并不会带来什么性能优势，所以我们选择了第一种方案。而相比传统的关系型数据库，Redis 不仅并发性能更好，而且自带了具有原子性的 <code>test_and_set</code> 方法 <code>setnx</code> 和过期 (expire) 功能，所以更适合用来实现分布式锁。</p>
+<p>一个简单的锁可以如此实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lock</span><span class="params">(key)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> test_and_set(key) == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>实际上，redis-py 中已经包含了通过 Lua 脚本实现的与锁相关的 API: Lualock。具体代码<a href="http://redis-py.readthedocs.io/en/latest/_modules/redis/client.html?highlight=LuaLock" target="_blank" rel="noopener">^1</a>大家可以自行查看，这里简要介绍一下思路：</p>
+<ul>
+<li>获取锁：需要传入锁名和一个客户端随机生成的 <code>token</code> ，通过 <code>setnx</code> 插入一条 key 为锁名，value 为 <code>token</code> 的记录</li>
+<li>释放锁：需要传入锁名和申请锁时生成的 <code>token</code> ，通过 Lua 脚本原子性地：<ol>
+<li>检查客户端传入的 key 与 <code>token</code> 是否相符</li>
+<li>相符则删除这条锁的记录，返回成功，否则返回失败</li>
+</ol>
+</li>
+</ul>
+<p>由于 Redis 使用单个 Lua 解释器运行所有脚本，它的原子性也是得到保证的：当某个脚本正在运行的时候，不会有其他脚本或 Redis 命令被执行。换句话说，在其他客户端看来，脚本的效果要么是不可见的，要么是已完成的。</p>
+<p>可能有细心的读者可能会问 <code>token</code> 的作用是什么。其实它是为了防止一个程序实例释放不属于它自己的锁。如果一个程序实例 A 在获取锁之后被阻塞，在这期间它的锁过期了，而第二个程序实例 B 获取了这把锁。当 A 从阻塞中回复后会尝试释放锁。如果不加判断进行释放就会造成 A 释放 B 新获取的锁，破坏了锁的排他性。所以，获取锁的程序实例需要生成一个唯一的 <code>token</code> 在获取时作为参数传入，并在释放时使用 <code>token</code> 供校验用。</p>
+<p>接下来的问题就是确定锁的名称（key）。一个简单的方法是拼接表名，id 和字段名，例如：<code>tb_order:1:status</code>，即锁住 <code>tb_order</code> 表中 <code>id</code> 为 1 的记录的 <code>status</code> 字段。</p>
+<p>具体实现大致如下（通过 <code>contextmanager</code> 可以实现在进入 <code>with</code> 语句块时获取锁，在退出时释放锁）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@contextmanager</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">redis_lock</span><span class="params">(key,timeout = <span class="number">15</span>)</span>:</span></span><br><span class="line">    _lock = LuaLock(REDIS, key, timeout)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        _lock.acquire(blocking=<span class="keyword">True</span>)</span><br><span class="line">        <span class="keyword">yield</span> _lock</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        _lock.release()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">purchase</span><span class="params">(order_id)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> redis_lock(<span class="string">'tb_order:&#123;&#125;:status'</span>.format(order_id)):</span><br><span class="line">        order = db.execute(<span class="string">'SELECT * FROM tb_order WHERE order_id = &#123;&#125;'</span>.format(order_id))</span><br><span class="line">    	<span class="keyword">if</span> order.status == PENDING_CREATE:</span><br><span class="line">            foreign_service.purchase(order.product, order.spec)</span><br><span class="line">            <span class="keyword">except</span> ForeignServiceException:</span><br><span class="line">            	<span class="comment"># retry or giveup somehow</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                db.execute(<span class="string">'UPDATE tb_order SET status = FINISHED WHERE id = &#123;&#125;'</span>.format(order_id))</span><br></pre></td></tr></table></figure>
+<p>这样就保证了只有一个程序实例可以拿到某条订单记录的独占锁，完成操作后释放，其他并行的程序实例会在其完成前阻塞，等到它们获取锁，检查发现订单状态改变，便直接返回。</p>
+<p>但是这也并不能保证万无一失。细心的读者可能会问：如果在 <code>purchase</code> 的过程中用户修改了订单内容怎么办？在这里，我们可以使用乐观并发控制。在更新订单状态前检查在过程中订单信息是否被修改，如果被修改，则将订单状态置为待更新，发送异步任务调用外部服务更新订单，并释放锁。更新订单的逻辑与创建订单类似，同样的在提交前也要检查期间订单是否被更改，这里就不赘述了。</p>
+<p>具体流程见下图：</p>
+<p><img src="/images/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/fig2.png" alt="fig1"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实百姓网的 DSP 平台就类似一个代购服务，方便用户在搜索引擎推广平台上投放广告，降低了 SEM 推广的门槛，为用户带来了便利。如果把商品换成广告的推广计划，外部服务换成各 SEM 平台，上述的模型就是凤鸣后台的一个简化模型。</p>
+<p>本文介绍了两种并发控制的方式：悲观并发控制和乐观并发控制，并介绍了如何使用 Redis 实现比 RDBMS 原生锁粒度更小的锁来提高并发性能。实际上，不同的并发控制策略并没有优劣之分：在写并不频繁的情况下，使用悲观并发控制将带来并发性能的下降；类似的，在写非常频繁的情况下，使用乐观并发控制也会造成大量的回滚影响性能。因此，应视具体的使用场景灵活地选择并发控制的策略。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.wujm.site/2017/04/18/Node-js：使用JavaScript搭建高性能网络程序/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="James Wu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="WJM's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/04/18/Node-js：使用JavaScript搭建高性能网络程序/" itemprop="url">Node.js：使用JavaScript搭建高性能网络程序</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-18T00:00:00+08:00">
+                2017-04-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/04/18/Node-js：使用JavaScript搭建高性能网络程序/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2017/04/18/Node-js：使用JavaScript搭建高性能网络程序/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="Node-js简介"><a href="#Node-js简介" class="headerlink" title="Node.js简介"></a>Node.js简介</h2><p>Node.js（简称Node）是一种服务器端Javascript环境，它基于谷歌的V8引擎（Javascript运行时的一种实现）。V8和Node主要由C、C++实现，因而实现了高性能和低内存消耗的特点。然而V8和Node的不同之处在于V8主要是为了支持浏览器中的Javascript，而Node则旨在提供长时间运行的服务器进程。</p>
+<p>与其他现代Javascript环境不同，Node进程并不依赖多线程去支持业务逻辑的并发执行；它基于一种异步IO事件模型（asynchronous I/O eventing model）。可以把Node服务器进程看作是一个单线程的守护进程（daemon），其中嵌入了Javascript引擎来支持定制。这和大部分其他编程语言的事件系统很不同：他们都以库的形式出现；而Node在语言层面上就支持了事件模型。</p>
+<p>Javascript非常适合这种方法，因为它支持事件回调（callback）。例如，当一个浏览器完成了文档加载，一个用户点击了一个按钮，或者一个Ajax请求完成了，事件就会触发回调函数。Javascript函数式的本质让创建匿名函数并将其注册为事件处理器（event handler）极为容易。</p>
+<h2 id="多线程-VS-事件"><a href="#多线程-VS-事件" class="headerlink" title="多线程 VS 事件"></a>多线程 VS 事件</h2><p>在处理多个IO资源时（如网络服务器处理多个客户连接时）应用开发者很早便采用多线程编程技术了。这种技术之所以流行是因为它让开发者能够将他们的应用程序分成能够并发且相互合作的活动。这不仅保证了程序理解、实现和维护的简易性，也使更快速，更高效的执行成为可能。</p>
+<p>对于如Web服务器这类执行惊人数量IO的应用，多线程使得应用能够更好地利用处理器。在现代多核系统上运行多个并发的线程是很符合直觉的，每个核心同时执行不同的线程实现了真正的并行。而在单核系统中，处理器执行一个线程，然后切换到另一个线程执行，一直如此。例如，当当前的线程在处理IO操作时（如向TCP套接字中写入数据），处理器将会把它的运行上下文（execution context）切换到另一个线程。这个切换之所以会发生是因为完成这个IO操作将会花费很多处理器周期。处理器与其将周期浪费在等待套接字操作完成，不如将IO操作挂起而执行其他线程，让自己忙于执行有意义的工作。当IO操作结束时，处理器会认为原来的线程已经准备好被执行了，因为它不再因为等待IO而被阻塞了。</p>
+<p>即使很多开发者已经成功地在产品级应用中使用多线程技术，大多数人还是认为多线程有一个很大的缺点，就是复杂。多线程程序充满难以被孤立并解决的问题，例如死锁（deadlock）和对于在线程之间共享资源的保护不当。开发者在使用多线程时也失去了一定程度的控制权，因为通常是由操作系统决定哪个线程需要执行并且执行多长时间。</p>
+<p>事件驱动编程（event-driven programming）提供了一个更有效，易于扩展的替代方案，它为让开发者能够对于应用程序活动的切换拥有更多控制权。在事件驱动模型中，应用依赖事件通知机制（event notification facilities），例如<code>select()</code>和<code>poll()</code>等Unix系统调用（ system calls），Linux的<code>epoll</code>服务，BSD UNIX的变体（如macOS）的<code>kqueue</code>和<code>kevent</code>调用。应用程序注册器（applications register）只对某些特定的事件感兴趣，如数据准备好被某个特定的套接字读取。当这个事件发生时，通知系统会通知这个应用以便让它处理这个事件。</p>
+<p>异步IO对事件驱动编程很重要，因为它防止了应用程序在等待IO操作时被阻塞。举个例子，如果一个应用程序在对一个套接字进行写操作并填满了套接字底层的缓冲区，通常，这个套接字会阻塞应用程序的写操作直到它的缓冲区重新达到可用状态，阻止了这应用程序去做其他有意义的工作。但是，如果这个套接字是非阻塞的，它将返回并告知应用程序：接下来暂时不能继续写了，由此通知应用程序应当稍后再重试。假设这个应用程序在这个套接字的事件通知系统里注册过，它就能够去做其他事情，并且知道它将在这个套接字的写缓冲区可用时收到通知。</p>
+<p>像多线程编程一样，带有异步IO的事件驱动编程也容易造成问题。其中一个问题是：并非所有的进程间通信方法都可以在我们之前提到的事件通知机制中实现。例如，在大多数操作系统中，两个应用程序通过共享内存通信，共享内存段不提供句柄（handles）或者文件描述符（file descriptors ）来让应用程序注册事件。在这些情况下，开发者必须寻找其他解决方案，例如在管道中执行写操作或者在写入共享内存时同时使用其他有能力处理事件的机制（some other event-capable mechanism together with writing to shared memory）。</p>
+<p>另一个重要的问题是使用某些编程语言去处理事件和异步IO是非常复杂的。这是因为不同的事件在不同的上下文中需要不同的行为。程序通常使用回调函数来处理事件。在一些缺少匿名函数和闭包的语言中（例如C），开发者必须为每一个事件和事件的上下文编写不同的函数。保证这些函数都能够访问它们在被调用处理事件时需要的数据和上下文信息是及其复杂令人困惑的。很多这样的程序最终将成为一团难以理解且难以维护的面条代码和全局变量。</p>
+<h2 id="和以往的JavaScript不同"><a href="#和以往的JavaScript不同" class="headerlink" title="和以往的JavaScript不同"></a>和以往的JavaScript不同</h2><p>无论你对JavaScript怀有什么样的看法，它已经毋庸置疑地成为了任何现代的基于HTML的应用的中心元素。服务器端的JavaScript是一个合理的展望，它使得使用单一编程语言为基于Web的分布式应用的所有切面（aspect）编程成为可能。这个理念并不新颖，例如：Rhino JavaScript运行环境已经面世很长一段时间了。然而，服务器端的JavaScript还未成为主流，仅仅最近才获得大量的人气。</p>
+<p>我们相信有一些因素造成了这个现象。一些被总称为“HTML 5”的技术的出现减少了一些客户端平台的备选方案的出现，迫使开发者了解并充分利用JavaScript来建造丰富的用户界面。NoSQL类型的数据库（例如CouchDB和Riak）使用JavaScript来定义数据视图（data views）和过滤器规则（filter criteria）。其他动态语言，例如Ruby和Python，已经成为可以接受的服务器端发开的选择。最后，Mozilla和Google都发布了高性能JavaScript运行时实现，它们非常快速并且可扩展性强。</p>
+<h2 id="Node编程模型"><a href="#Node编程模型" class="headerlink" title="Node编程模型"></a>Node编程模型</h2><p>Node的IO方式非常严格：异步交互不是例外，而是常规。任何IO操作都依靠高阶函数（以函数为参数的函数）来处理，它们规定了有什么事情需要被处理的时候该做什么。只有在很罕见的情况下，Node开发者会增加一些同步的便利函数（convenience function），例如删除或者重命名文件时。但是，通常当一个操作可能需要网络或者文件IO被调用时，控制权将会立刻返回给调用者。当程序感兴趣的事情发生时，例如：一个网络套接字上的数据可供读取时，或者一个输出流可以被写入时，或者一个错误产生时，恰当的回调函数将会被调用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sys = <span class="built_in">require</span>(<span class="string">"sys"</span>),</span><br><span class="line">    http = <span class="built_in">require</span>(<span class="string">"http"</span>),</span><br><span class="line">    url = <span class="built_in">require</span>(<span class="string">"url"</span>),</span><br><span class="line">    path = <span class="built_in">require</span>(<span class="string">"path"</span>),</span><br><span class="line">    fs = <span class="built_in">require</span>(<span class="string">"fs"</span>);</span><br><span class="line">http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">request, response</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> uri = url.parse(request.url).pathname;</span><br><span class="line">    <span class="keyword">var</span> filename = path.join(process.cwd(), uri);</span><br><span class="line">    path.exists(filename, <span class="function"><span class="keyword">function</span> (<span class="params">exists</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (exists) &#123;</span><br><span class="line">            fs.readFile(filename, <span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">                response.writeHead(<span class="number">200</span>);</span><br><span class="line">                response.end(data);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            response.writeHead(<span class="number">404</span>);</span><br><span class="line">            response.end();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;).listen(<span class="number">8080</span>);</span><br><span class="line">sys.log(<span class="string">"Server running at http:localhost:8080/"</span>);</span><br></pre></td></tr></table></figure>
+<p>上面的程序是一个简单的实现一个HTTP Web服务器的例子，它提供磁盘上的静态文件。即使对于非Web开发者，JavaScript的语法对于其他之前接触过C-like语言的人也是非常易懂的。其中一个更具体的话题是<code>funciton(...)</code>语法。它会创建一个未命名的函数：JavaScript是一个函数式语言，因此它支持高阶函数。这在Node程序中随处可见。</p>
+<p>这个程序的主要流程被显式调用的函数决定。这些函数绝不在任何IO相关的内容上阻塞，而是注册适当的回调函数作为事件处理的方法。如果你在其他编程语言的事件处理库中见过相似的概念，你可能会好奇显式调用事件循环（event loop）的阻塞调用在哪里。事件循环的概念是Node行为的绝对核心，所以它被隐藏在Node的实现中：程序的主要目的只是简单的设置好适当的处理方法。<code>http.createServer</code>函数是一个底层的高效HTTP协议实现的封装，作为唯一的参数以一个函数的身份被传递。只要新的请求的数据可以被读取时这个函数就会被调用。在另一个环境中，一个简单的实现可能会因为采用同步读取文件并传输回去而大幅降低了执行效率。Node并不提供同步读取文件的机会，唯一的选项只有通过<code>readFile</code>注册一个函数，它将会在数据就绪时被调用。</p>
+<h2 id="并发编程"><a href="#并发编程" class="headerlink" title="并发编程"></a>并发编程</h2><p>一个Node服务器进程通常是通过命令形如<code>node &lt;scriptname&gt;</code>调用的，它是单线程的，却可以同时服务很多客户端。这看上去有些矛盾，但是请回想一下有一个隐式的主循环围绕着代码，并且在循环中真正发生的只是一些注册调用。在循环体中没有真正的IO和业务逻辑在运行。与IO相关的事件（例如一个连接被建立或者字节在套接字、文件或外部系统上传输）将触发真正的处理器。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> sys = <span class="built_in">require</span>(<span class="string">"sys"</span>),</span><br><span class="line">    http = <span class="built_in">require</span>(<span class="string">"http"</span>),</span><br><span class="line">    url = <span class="built_in">require</span>(<span class="string">"url"</span>),</span><br><span class="line">    path = <span class="built_in">require</span>(<span class="string">"path"</span>),</span><br><span class="line">    fs = <span class="built_in">require</span>(<span class="string">"fs"</span>);</span><br><span class="line">http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">request, response</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> uri = url.parse(request.url).pathname;</span><br><span class="line">    <span class="keyword">var</span> filename = path.join(process.cwd(), uri);</span><br><span class="line">    path.exists(filename, <span class="function"><span class="keyword">function</span> (<span class="params">exists</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (exists) &#123;</span><br><span class="line">            f = fs.createReadStream(filename);</span><br><span class="line">            f.addListener(<span class="string">'open'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">                response.writeHead(<span class="number">200</span>);</span><br><span class="line">            &#125;);</span><br><span class="line">            f.addListener(<span class="string">'data'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">chunk</span>) </span>&#123;</span><br><span class="line">                response.write(chunk);</span><br><span class="line">                setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">                    f.resume()</span><br><span class="line">                &#125;, <span class="number">100</span>);</span><br><span class="line">            &#125;);</span><br><span class="line">            f.addListener(<span class="string">'error'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err</span>) </span>&#123;</span><br><span class="line">                response.writeHead(<span class="number">500</span>, &#123;<span class="string">"Content-Type"</span>: <span class="string">"text/plain"</span>&#125;);</span><br><span class="line">                response.write(err + <span class="string">"\n"</span>);</span><br><span class="line">                response.end();</span><br><span class="line">            &#125;);</span><br><span class="line">            f.addListener(<span class="string">'close'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">                response.end();</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            response.writeHead(<span class="number">404</span>);</span><br><span class="line">            response.end();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;).listen(<span class="number">8080</span>);</span><br><span class="line">sys.log(<span class="string">"Server running at http://localhost:8080/"</span>);</span><br></pre></td></tr></table></figure>
+<p>上面的程序是一个稍微复杂的简单HTTP服务器变体，但是它的功能多多了。同样，它解析HTTP请求中的URI并将URI的路径部分映射到服务器的一个文件名上。但这一次，文件是以分块而不是一次性读完的方式读取的。在某些情况下，适用于这个情况的函数作为回调函数被调用。这些情况包含：文件系统层准备好了提供一些字节的数据给应用程序（当文件被完全读取或某些错误发生时）。如果数据时可用的，它将被写入HTTP输出流。Node精妙的HTTP库支持HTTP 1.1的分块传输编码。同样，文件的读取和HTTP流的写入都是异步的。</p>
+<p>上面的例子说明了开发者可以很轻易地构建一个高性能、异步、事件驱动的网络服务器而只需要少量的资源。它的主要原因是JavaScript（由于其函数式的本质）支持事件回调。事实上，这个模式被任何客户端JavaScript开发者所熟知。另外，将异步IO设为默认方式强迫开发者从头开始遵循异步模型。这是使用Node和其他编程语言的异步IO的主要不同（在其他语言中，异步IO只是其中一个选择，并且常常被认为过于先进了）。</p>
+<h2 id="运行多个进程"><a href="#运行多个进程" class="headerlink" title="运行多个进程"></a>运行多个进程</h2><p>在单CPU多核心的硬件环境下，并行执行并不是一种幻象而是现实。虽然操作系统可以利用和其他运行在系统上的进程并行的异步IO交互高效地调度一个Node进程，Node仍旧运行在单一的进程上，因此业务逻辑并不会并行执行。在Node的世界中，对于这个问题的一个通用的解决方案是运行多个进程实例。</p>
+<p>为了支持这一点，多Node库（multi-node library）(见 <a href="http://github.com/kriszyp/multi-node" target="_blank" rel="noopener">http://github.com/kriszyp/multi-node</a>)最大限度地利用了操作系统在进程之间分享套接字的能力（而实现仅仅用了少于200行Node JavaScript代码）。例如，你可以你可以通过调用多Node的<code>listen()</code>函数并行地运行如上述的两个程序的HTTP服务器。这将启动多个监听同一端口的进程，实际上是将操作系统作为高效的负载均衡器。</p>
+<h2 id="服务器端JavaScript生态系统"><a href="#服务器端JavaScript生态系统" class="headerlink" title="服务器端JavaScript生态系统"></a>服务器端JavaScript生态系统</h2><p>Node是一个广为人知的支持服务器端JavaScript开发的框架和环境。Node的社区已经创建了一整套库的生态系统（为Node开发或兼容Node）。其中，如node-mysql或者node-couchdb等工具因分别支持同关系型以及NoSQL数据存储的异步交互而起到重要作用。很多框架提供全功能的Web栈，例如Connect和Express，他们分别可与Ruby界的Rack和Rails做比较（虽然可能并没有它们受欢迎）。Node的包管理器npm能够安装库和依赖包。最后，许多服从CommonJS规范的模块系统的客户端JavaScript库也能在Node平台上工作。一个令人印象深刻的Node模块列表可以在这里找到：<a href="http://github.com/ry/node/wiki/modules" target="_blank" rel="noopener">http://github.com/ry/node/wiki/modules</a>。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>考虑到在大多数Web开发项目中，对于Javascript的了解是设计高级UI交互的先决条件，使用单一语言为所有方面编程是很诱人的。Node.js的架构使它易于使用具有高表现力的、函数式的语言为服务器编程，而不必牺牲性能或者远离编程的主流。</p>
+<p>译者：<a href="http://wujm2007.github.io/" target="_blank" rel="noopener">wujm2007</a>，译自：<a href="http://ieeexplore.ieee.org/abstract/document/5617064/" target="_blank" rel="noopener">Node.js: Using JavaScript to Build High-Performance Network Programs</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+  </section>
+
+  
+
+
+          </div>
+          
+
+
+          
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">James Wu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/wujm2007" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://weibo.com/u/3829383816" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-globe"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">James Wu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://wjms-blog.disqus.com/count.js" async></script>
+    
+
+    
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
