@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.wujm.site/images/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/fig1.png">
 <meta property="og:image" content="http://blog.wujm.site/images/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/fig2.png">
-<meta property="og:updated_time" content="2017-12-19T11:53:56.299Z">
+<meta property="og:updated_time" content="2017-12-21T17:23:28.620Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="通过基于 Redis 的轻量分布式锁解决高并发下的数据竞争问题">
 <meta name="twitter:description" content="通过基于 Redis 的轻量分布式锁解决高并发下的数据竞争问题背景介绍为了避免数据竞争（Data Race）问题，一般采用加锁的方式对资源的访问进行限制。在单机（单进程）环境中，可以通过编程语言提供的并发控制 API 来实现。然而如今几乎所有大型网站为了解决大流量，高并发的问题，都会选择分布式以及集群部署。在这种情况下，就需要引入分布式锁来实现并发控制。 本文将以笔者在百姓网的 DSP 平台凤鸣为">
@@ -417,7 +417,12 @@
 <p>具体实现大致如下（通过 <code>contextmanager</code> 可以实现在进入 <code>with</code> 语句块时获取锁，在退出时释放锁）：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@contextmanager</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">redis_lock</span><span class="params">(key,timeout = <span class="number">15</span>)</span>:</span></span><br><span class="line">    _lock = LuaLock(REDIS, key, timeout)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        _lock.acquire(blocking=<span class="keyword">True</span>)</span><br><span class="line">        <span class="keyword">yield</span> _lock</span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        _lock.release()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">purchase</span><span class="params">(order_id)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> redis_lock(<span class="string">'tb_order:&#123;&#125;:status'</span>.format(order_id)):</span><br><span class="line">        order = db.execute(<span class="string">'SELECT * FROM tb_order WHERE order_id = &#123;&#125;'</span>.format(order_id))</span><br><span class="line">    	<span class="keyword">if</span> order.status == PENDING_CREATE:</span><br><span class="line">            foreign_service.purchase(order.product, order.spec)</span><br><span class="line">            <span class="keyword">except</span> ForeignServiceException:</span><br><span class="line">            	<span class="comment"># retry or giveup somehow</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                db.execute(<span class="string">'UPDATE tb_order SET status = FINISHED WHERE id = &#123;&#125;'</span>.format(order_id))</span><br></pre></td></tr></table></figure>
 <p>这样就保证了只有一个程序实例可以拿到某条订单记录的独占锁，完成操作后释放，其他并行的程序实例会在其完成前阻塞，等到它们获取锁，检查发现订单状态改变，便直接返回。</p>
-<p>但是这也并不能保证万无一失。细心的读者可能会问：如果在 <code>purchase</code> 的过程中用户修改了订单内容怎么办？在这里，我们可以使用乐观并发控制。在更新订单状态前检查在过程中订单信息是否被修改，如果被修改，则将订单状态置为待更新，发送异步任务调用外部服务更新订单，并释放锁。更新订单的逻辑与创建订单类似，同样的在提交前也要检查期间订单是否被更改，这里就不赘述了。</p>
+<p>但是这也并不能保证万无一失。细心的读者可能会问：如果在 <code>purchase</code> 的过程中用户修改了订单内容怎么办？在这里，我们可以使用类似乐观并发控制的机制。在更新订单状态前检查在过程中订单信息是否被修改：</p>
+<ul>
+<li>如果未被修改，否则订单状态由待创建 (<code>PENDING_CREATE</code>) 置为已完成 (<code>FINISHED</code>) </li>
+<li>否则，将订单状态由待创建 (<code>PENDING_CREATE</code>) 置为待更新 (<code>PENDING_UPDATE</code>) ，并发送异步任务通知 worker 进行更新</li>
+</ul>
+<p>无论怎样，在完成上述步骤之后 worker 都会释放锁。更新订单的逻辑与创建订单类似，同样的在提交前也要检查期间订单是否被更改，这里就不赘述了。</p>
 <p>具体流程见下图：</p>
 <p><img src="/images/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/fig2.png" alt="fig1"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实百姓网的 DSP 平台就类似一个代购服务，方便用户在搜索引擎推广平台上投放广告，降低了 SEM 推广的门槛，为用户带来了便利。如果把商品换成广告的推广计划，外部服务换成各 SEM 平台，上述的模型就是凤鸣后台的一个简化模型。</p>
