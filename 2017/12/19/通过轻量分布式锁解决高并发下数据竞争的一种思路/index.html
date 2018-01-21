@@ -83,7 +83,7 @@
 <meta name="keywords" content="Redis,分布式锁,数据竞争">
 <meta property="og:type" content="article">
 <meta property="og:title" content="通过基于 Redis 的轻量分布式锁解决高并发下的数据竞争问题">
-<meta property="og:url" content="http://blog.wujm.site/2017/12/19/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/index.html">
+<meta property="og:url" content="http://blog.wujm.site/2017/12/19/通过轻量分布式锁解决高并发下数据竞争的一种思路/index.html">
 <meta property="og:site_name" content="WJM&#39;s Blog">
 <meta property="og:description" content="通过轻量分布式锁解决高并发下数据竞争的一种思路背景介绍为了避免数据竞争（Data Race）问题，一般采用加锁的方式对资源的访问进行限制。在单机（单进程）环境中，可以通过编程语言提供的并发控制 API 来实现。然而如今几乎所有大型网站为了解决大流量，高并发的问题，都会选择分布式以及集群部署。在这种情况下，就需要引入分布式锁来实现并发控制。 本文将以笔者在百姓网的经验为例，介绍一种通过轻量级分布式锁">
 <meta property="og:locale" content="zh-Hans">
@@ -123,7 +123,7 @@
 
 
 
-  <link rel="canonical" href="http://blog.wujm.site/2017/12/19/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/"/>
+  <link rel="canonical" href="http://blog.wujm.site/2017/12/19/通过轻量分布式锁解决高并发下数据竞争的一种思路/"/>
 
 
 
@@ -236,7 +236,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.wujm.site/2017/12/19/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/">
+    <link itemprop="mainEntityOfPage" href="http://blog.wujm.site/2017/12/19/通过轻量分布式锁解决高并发下数据竞争的一种思路/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="James Wu">
@@ -284,9 +284,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/12/19/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/#comments" itemprop="discussionUrl">
+                <a href="/2017/12/19/通过轻量分布式锁解决高并发下数据竞争的一种思路/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/12/19/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2017/12/19/通过轻量分布式锁解决高并发下数据竞争的一种思路/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -799,8 +799,8 @@
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://blog.wujm.site/2017/12/19/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/';
-          this.page.identifier = '2017/12/19/通过基于-Redis-的轻量分布式锁解决高并发下的数据竞争问题/';
+          this.page.url = 'http://blog.wujm.site/2017/12/19/通过轻量分布式锁解决高并发下数据竞争的一种思路/';
+          this.page.identifier = '2017/12/19/通过轻量分布式锁解决高并发下数据竞争的一种思路/';
           this.page.title = '通过基于 Redis 的轻量分布式锁解决高并发下的数据竞争问题';
         };
         var d = document, s = d.createElement('script');
